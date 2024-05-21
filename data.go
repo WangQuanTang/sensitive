@@ -55,15 +55,14 @@ func (filter *DataFilter) RemoveNoise(text string) string {
 }
 
 // FindInSlice 检测敏感词在 []string 中
-func (filter *DataFilter) FindInSlice(texts []string) (bool, []string) {
-	var matches []string
+func (filter *DataFilter) FindInSlice(texts []string) (bool, string) {
 	for _, text := range texts {
 		text = filter.RemoveNoise(text)
 		if found, word := filter.trie.FindIn(text); found {
-			matches = append(matches, word)
+			return true, word
 		}
 	}
-	return len(matches) > 0, matches
+	return false, ""
 }
 
 // FindAllInSlice 找到所有匹配词在 []string 中
